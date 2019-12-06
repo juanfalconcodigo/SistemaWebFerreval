@@ -9,6 +9,6 @@ let url_db;
 if (process.env.NODE_ENV === 'dev') {
     url_db = 'mongodb://localhost:27017/ventasweb';
 } else {
-    url_db = 'mongodb+srv://juan:Nn42lh6UOgvTwrXL@cluster0-3lu3i.mongodb.net/ventasweb? retryWrites = true & ssl = false'
+    url_db = process.env.MONGO_URI;
 }
 process.env.URLDB = url_db;
