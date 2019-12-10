@@ -44,6 +44,7 @@ let usuarioSchema = new Schema({
     },
     photo: {
         type: String,
+        default: 'https://mygoaltv.com/images/no-image.png',
         required: false
     }
 

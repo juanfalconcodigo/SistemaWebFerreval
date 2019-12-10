@@ -13,9 +13,12 @@ mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useUnifiedTopology:
 
 
 //para el problema de cors
+// Access-Control-Allow-Origin: Para controlar quien puede consumir mi API
+// Access-Control-Allow-Headers: Para configurar los headers que acepta la API
+// Access-Control-Allow-Methods: Para declarar los métodos que acepta el API
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method, token');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
     next();

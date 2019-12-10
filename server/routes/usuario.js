@@ -1,5 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
+const { verificaToken, verificaRole } = require('../middlewares/authentication');
 const app = express();
 
 const Usuario = require('../models/usuario');
@@ -25,13 +26,14 @@ app.get('/usuario', (req, res) => {
 });
 
 app.post('/usuario', (req, res) => {
-    let { first_name, last_name, email, password, role } = req.body;
+    let { first_name, last_name, email, password, role, photo } = req.body;
     let usuario = new Usuario({
         first_name,
         last_name,
         email,
         password: bcrypt.hashSync(password, 10),
-        role
+        role,
+        photo
     });
 
     usuario.save((err, usuarioDB) => {
@@ -54,9 +56,15 @@ app.post('/usuario', (req, res) => {
 
 app.put('/usuario/:id', (req, res) => {
     let { id } = req.params;
-    let body = req.body;
-
-    Usuario.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, usuarioDB) => {
+    let { first_name, last_name, email, password, photo } = req.body;
+    let data = {
+        first_name,
+        last_name,
+        email,
+        password: bcrypt.hashSync(password, 10),
+        photo
+    }
+    Usuario.findByIdAndUpdate(id, data, { new: true, runValidators: true, context: 'query' }, (err, usuarioDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
