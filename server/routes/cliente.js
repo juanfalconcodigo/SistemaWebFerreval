@@ -123,4 +123,25 @@ app.delete('/cliente/:id', verificaToken, (req, res) => {
     });
 });
 
+
+
+app.get('/cliente/buscar/:termino', verificaToken, (req, res) => {
+    let { termino } = req.params;
+    let regex = new RegExp(termino, 'gi');
+    Cliente.find({ first_name: regex }).populate('usuario', 'first_name email').exec((err, clientes) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+        res.status(202).json({
+            ok: true,
+            clientes
+        });
+    });
+});
+
+
+
 module.exports = app;

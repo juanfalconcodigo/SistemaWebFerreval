@@ -120,7 +120,22 @@ app.delete('/producto/:id', verificaToken, (req, res) => {
     });
 });
 
-
+app.get('/producto/buscar/:termino', verificaToken, (req, res) => {
+    let { termino } = req.params;
+    let regex = new RegExp(termino, 'gi');
+    Producto.find({ name: regex }).populate('usuario', 'first_name email').exec((err, productos) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+        res.status(202).json({
+            ok: true,
+            productos
+        });
+    });
+});
 
 
 
